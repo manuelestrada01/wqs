@@ -56,6 +56,8 @@ input, textarea, select {
   --c-white:       #FFFFFF;
   --c-white-80:    rgba(255, 255, 255, 0.80);
   --c-white-50:    rgba(255, 255, 255, 0.50);
+  --c-white-40:    rgba(255, 255, 255, 0.40);
+  --c-white-30:    rgba(255, 255, 255, 0.30);
   --c-white-20:    rgba(255, 255, 255, 0.20);
   --c-white-10:    rgba(255, 255, 255, 0.10);
   --c-white-06:    rgba(255, 255, 255, 0.06);

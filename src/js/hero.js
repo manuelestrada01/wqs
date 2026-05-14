@@ -24,7 +24,9 @@ export function initHero() {
   );
   const allChars = splits.flatMap(s => s.chars);
 
-  // Set initial states
+  // Reveal headline container (was opacity:0 in CSS to prevent FOUC)
+  // chars are hidden individually — nothing shows until animation runs
+  gsap.set('.hero__headline', { opacity: 1 });
   gsap.set(allChars, { yPercent: 110, rotateX: -80, opacity: 0, transformOrigin: 'bottom center' });
 
   // ── Entrance timeline ──────────────────────────────────────

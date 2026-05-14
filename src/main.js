@@ -11,6 +11,11 @@
 
 import './styles/index.css';
 
+// CSS injected — remove FOUC inline overrides immediately
+document.getElementById('navbar')?.style.removeProperty('opacity');
+document.querySelector('main')?.style.removeProperty('visibility');
+document.querySelector('footer')?.style.removeProperty('visibility');
+
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';

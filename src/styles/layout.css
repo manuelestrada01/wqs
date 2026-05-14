@@ -54,6 +54,8 @@
   align-items: center;
   justify-content: flex-start;
   padding: var(--sp-32) min(8vw, var(--sp-32)) var(--sp-20);
+  background: var(--c-carbon);
+  overflow: hidden;
 }
 
 /* ══════════════════════ SEQUENCE LAYOUT ══════════════════════ */
@@ -66,11 +68,12 @@
 .section--products {
   padding-bottom: var(--sp-24);
   background: var(--c-carbon);
+  scroll-margin-top: -5vh;
 }
 
 .products__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(384px, 100%), 1fr));
   gap: var(--sp-4);
   padding: 0 var(--sp-6) var(--sp-6);
   max-width: 1400px;
@@ -132,6 +135,49 @@
   .cta__inner {
     grid-template-columns: 1fr;
     gap: var(--sp-12);
+  }
+}
+
+/* ══════════════════════ ABOUT LAYOUT ══════════════════════ */
+.section--about {
+  padding: var(--sp-14) var(--sp-6);
+  background: var(--c-carbon);
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.about__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--sp-20);
+  max-width: 1200px;
+  width: 100%;
+  margin-inline: auto;
+  align-items: start;
+}
+
+.about__timeline {
+  padding-top: var(--sp-10);
+}
+
+.about__row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: var(--sp-6);
+  row-gap: var(--sp-1);
+  padding: var(--sp-5) 0;
+}
+
+@media (max-width: 900px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+  }
+
+  .about__timeline {
+    padding-top: 0;
   }
 }
 
@@ -211,18 +257,29 @@
 /* ══════════════════════ FOOTER LAYOUT ══════════════════════ */
 .footer__inner {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: var(--sp-12);
-  padding: var(--sp-16) var(--sp-8);
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: var(--sp-16);
+  padding: var(--sp-16) var(--sp-8) var(--sp-12);
   max-width: 1400px;
   margin-inline: auto;
   align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-10);
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 768px) {
   .footer__inner {
     grid-template-columns: 1fr;
     gap: var(--sp-8);
-    padding: var(--sp-12) var(--sp-6);
+    padding: var(--sp-12) var(--sp-6) var(--sp-10);
   }
 }

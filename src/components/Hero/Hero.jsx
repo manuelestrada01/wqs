@@ -65,9 +65,9 @@ export default function Hero({ ready }) {
           <span className="hero__line">Argentina.</span>
         </h1>
         <p className="hero__sub">
-          Sistemas de ventanas y puertas REHAU SYNEGO —<br />
-          aislamiento térmico, acústico y seguridad multicámara<br />
-          de clase mundial.
+          Aberturas de aluminio REHAU de alto rendimiento —<br />
+          aislamiento térmico, acústico y seguridad<br />
+          para cada proyecto.
         </p>
         <a href="#cotizaciones" className="btn btn--primary hero__cta">
           Cotizar

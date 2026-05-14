@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -l \"/c/Users/jetsa/Downloads/ezgif-64c1cbfef6e2a347-jpg.zip\")",
+      "Bash(cat /c/Users/jetsa/WQS/.claude/*.md)",
+      "Bash(npm --version)",
+      "Bash(git --version)",
+      "Bash(git config:*)",
+      "Bash(ls /c/Users/jetsa/Downloads/*.zip)",
+      "Bash(npm list:*)",
+      "Bash(python3 \"C:/Users/jetsa/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"premium window factory industrial luxury dark cinematic high-end construction materials\" --design-system -p \"WQS Windows Quality System\" -f markdown)",
+      "Bash(python \"C:/Users/jetsa/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"premium window factory industrial luxury dark cinematic high-end construction materials\" --design-system -p \"WQS Windows Quality System\" -f markdown)",
+      "Bash(where python3:*)",
+      "Bash(where python:*)",
+      "Bash(py --version)",
+      "Bash(py -3 --version)",
+      "Bash(/c/Users/jetsa/AppData/Local/Programs/Python/Python*/python.exe --version)",
+      "Read(//c/Users/jetsa/AppData/Local/Programs/**)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote:*)",
+      "Bash(unzip -q \"/c/Users/jetsa/Downloads/ezgif-64c1cbfef6e2a347-jpg.zip\" -d /c/Users/jetsa/WQS/public/frames/)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(unzip -l \"/c/Users/jetsa/Downloads/ezgif-60a539cd49df9884-jpg.zip\")",
+      "Bash(rm -f /c/Users/jetsa/WQS/public/frames/*.jpg)",
+      "Bash(unzip -q \"/c/Users/jetsa/Downloads/ezgif-60a539cd49df9884-jpg.zip\" -d /c/Users/jetsa/WQS/public/frames/)",
+      "Bash(ls:*)",
+      "Bash(git checkout:*)",
+      "Bash(npx vite:*)",
+      "Bash(unzip -l \"6a05d865147814725PzGhuzXtc9361_000.zip\")",
+      "Bash(unzip -o \"C:/Users/jetsa/Downloads/6a05d865147814725PzGhuzXtc9361_000.zip\" -d \"C:/Users/jetsa/WQS/public/frames-euro/\")"
+    ]
+  }
+}

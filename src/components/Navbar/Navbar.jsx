@@ -1,12 +1,43 @@
 import React, { useRef, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { scrollToSection } from '../../js/utils.js';
 
-export default function Navbar({ ready }) {
-  const navbarRef = useRef(null);
-  const menuRef   = useRef(null);
-  const toggleRef = useRef(null);
+export default function Navbar() {
+  const navbarRef  = useRef(null);
+  const menuRef    = useRef(null);
+  const toggleRef  = useRef(null);
+  const location   = useLocation();
+  const navigate   = useNavigate();
+
+  function handleSistemas() {
+    closeMenu();
+    if (location.pathname === '/') {
+      scrollToSection('products');
+    } else {
+      navigate('/#products');
+    }
+  }
+
+  function handleQuienesSomos() {
+    closeMenu();
+    if (location.pathname === '/') {
+      scrollToSection('quienes-somos');
+    } else {
+      navigate('/#quienes-somos');
+    }
+  }
+
+  function handleCotizaciones() {
+    closeMenu();
+    if (location.pathname === '/') {
+      scrollToSection('cotizaciones');
+    } else {
+      navigate('/#cotizaciones');
+    }
+  }
 
   // ── Scroll state + hide-on-scroll ──────────────────────────
   useEffect(() => {
@@ -45,11 +76,10 @@ export default function Navbar({ ready }) {
 
   // ── Entrance animation (after loader) ─────────────────────
   useGSAP(() => {
-    if (!ready) return;
     gsap.timeline({ delay: 0.1 })
       .from('.nav__logo',  { opacity: 0, y: -12, duration: 0.6, ease: 'power3.out' })
       .from('.nav__link',  { opacity: 0, y: -8,  stagger: 0.06, duration: 0.5, ease: 'power2.out' }, '-=0.3');
-  }, { dependencies: [ready] });
+  }, { dependencies: [] });
 
   // ── Active section tracking ────────────────────────────────
   useEffect(() => {
@@ -108,9 +138,18 @@ export default function Navbar({ ready }) {
   return (
     <header id="navbar" ref={navbarRef} role="banner">
       <nav className="nav__inner" aria-label="Navegación principal">
-        <a href="/" className="nav__logo" aria-label="WQS — inicio">
+        <Link
+          to="/"
+          className="nav__logo"
+          aria-label="WQS — inicio"
+          onClick={() => {
+            if (location.pathname === '/') {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
+        >
           <img src="/wqs-logo.png" alt="WQS Windows Quality System" width="80" height="27" />
-        </a>
+        </Link>
 
         <button
           ref={toggleRef}
@@ -126,21 +165,20 @@ export default function Navbar({ ready }) {
         </button>
 
         <ul id="nav-menu" ref={menuRef} className="nav__menu" role="list">
-          {[
-            { id: 'corrediza',    label: 'Corrediza' },
-            { id: 'plegadiza',    label: 'Plegadiza' },
-            { id: 'oscilobatiente', label: 'Oscilobatiente' },
-            { id: 'puertas',      label: 'Puertas' },
-            { id: 'euro-design',  label: 'Euro Design 70' },
-          ].map(({ id, label }) => (
-            <li key={id}>
-              <a href={`#${id}`} className="nav__link" onClick={closeMenu}>{label}</a>
-            </li>
-          ))}
-          <li className="nav__cta-wrap">
-            <a href="#cotizaciones" className="nav__link nav__link--cta" onClick={closeMenu}>
+          <li>
+            <button className="nav__link" onClick={handleQuienesSomos}>
+              Quiénes somos
+            </button>
+          </li>
+          <li>
+            <button className="nav__link" onClick={handleSistemas}>
+              Sistemas
+            </button>
+          </li>
+          <li>
+            <button className="nav__link" onClick={handleCotizaciones}>
               Cotizaciones
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

@@ -1,103 +1,54 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { SYSTEMS } from '../../data/systems.js';
 
-const CATEGORIES = [
-  {
-    id: 'corredizas',
-    label: 'Corredizas',
-    lines: [
-      {
-        id: 'corrediza',
-        title: 'Corrediza',
-        desc: 'Máxima apertura de vano con movimiento suave y silencioso. Perfiles de aluminio con rotura de puente térmico.',
-        tag: 'Sistema',
-        featured: false,
-        svg: (
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <rect x="10" y="10" width="60" height="60" rx="2"/>
-            <line x1="40" y1="10" x2="40" y2="70"/>
-            <line x1="10" y1="40" x2="40" y2="40"/>
-            <circle cx="38" cy="40" r="2" fill="currentColor"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    id: 'plegadizas',
-    label: 'Plegadizas',
-    lines: [
-      {
-        id: 'plegadiza',
-        title: 'Plegadiza',
-        desc: 'Integración total entre interior y exterior. Hojas múltiples, apertura completa del vano. Diseño arquitectónico.',
-        tag: 'Premium',
-        featured: true,
-        svg: (
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <rect x="5" y="10" width="70" height="60" rx="2"/>
-            <line x1="24" y1="10" x2="24" y2="70"/>
-            <line x1="43" y1="10" x2="43" y2="70"/>
-            <line x1="62" y1="10" x2="62" y2="70"/>
-            <path d="M5 40 L24 35 L43 40 L62 35 L75 40"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    id: 'oscilobatientes',
-    label: 'Oscilobatientes',
-    lines: [
-      {
-        id: 'oscilobatiente',
-        title: 'Oscilobatiente',
-        desc: 'Apertura batiente o microventilación con un solo herraje. Hermeticidad superior y doble función de apertura.',
-        tag: 'Sistema',
-        featured: false,
-        svg: (
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <rect x="10" y="10" width="60" height="60" rx="2"/>
-            <path d="M10 40 Q25 35 40 70" strokeDasharray="4 2"/>
-            <path d="M70 10 Q65 40 10 40" strokeDasharray="4 2"/>
-            <circle cx="65" cy="40" r="3" fill="currentColor"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    id: 'puertas',
-    label: 'Puertas',
-    lines: [
-      {
-        id: 'puertas',
-        title: 'Puertas',
-        desc: 'Puertas de entrada en aluminio de alta resistencia. Sellado perimetral total. Seguridad y estética de primer nivel.',
-        tag: 'Sistema',
-        featured: false,
-        svg: (
-          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <rect x="15" y="5" width="50" height="72" rx="2"/>
-            <rect x="20" y="12" width="40" height="28" rx="1"/>
-            <rect x="20" y="46" width="40" height="24" rx="1"/>
-            <circle cx="58" cy="42" r="2.5" fill="currentColor"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-];
+// SVG placeholders para sistemas sin imagen (inline JSX, no puede ir en systems.js)
+const SVG_PLACEHOLDERS = {
+  'plegadiza': (
+    <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="5" y="10" width="70" height="60" rx="2"/>
+      <line x1="24" y1="10" x2="24" y2="70"/>
+      <line x1="43" y1="10" x2="43" y2="70"/>
+      <line x1="62" y1="10" x2="62" y2="70"/>
+      <path d="M5 40 L24 35 L43 40 L62 35 L75 40"/>
+    </svg>
+  ),
+  'puertas': (
+    <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="15" y="5" width="50" height="72" rx="2"/>
+      <rect x="20" y="12" width="40" height="28" rx="1"/>
+      <rect x="20" y="46" width="40" height="24" rx="1"/>
+      <circle cx="58" cy="42" r="2.5" fill="currentColor"/>
+    </svg>
+  ),
+};
+
+// Adaptar SYSTEMS al formato de tabs/cards
+const CATEGORIES = SYSTEMS.map(cat => ({
+  id: cat.categoryId,
+  label: cat.categoryLabel,
+  lines: cat.systems.map(s => ({
+    id: s.slug,
+    title: s.title,
+    subtitle: s.subtitle,
+    desc: s.desc,
+    tag: s.tag,
+    featured: s.featured,
+    img: s.img,
+    svg: SVG_PLACEHOLDERS[s.slug] ?? null,
+    route: s.sequence ? `/sistemas/${cat.categoryId}/${s.slug}` : null,
+  })),
+}));
 
 export default function Products({ ready }) {
-  const sectionRef  = useRef(null);
-  const gridRef     = useRef(null);
+  const sectionRef   = useRef(null);
+  const gridRef      = useRef(null);
   const switchingRef = useRef(false);
   const [activeTab, setActiveTab] = useState(0);
 
-  // ── Tab switch with GSAP transition ──────────────────────
   function switchTab(idx) {
     if (idx === activeTab || switchingRef.current) return;
     switchingRef.current = true;
@@ -107,26 +58,20 @@ export default function Products({ ready }) {
     });
   }
 
-  // After state updates + React re-renders, animate new cards in
   useEffect(() => {
     if (!switchingRef.current) return;
     const cards = gridRef.current?.querySelectorAll('.product-card');
-    gsap.fromTo(
-      gridRef.current,
+    gsap.fromTo(gridRef.current,
       { opacity: 0, y: 8 },
       { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' }
     );
-    gsap.fromTo(
-      cards,
+    gsap.fromTo(cards,
       { opacity: 0, y: 20 },
-      {
-        opacity: 1, y: 0, stagger: 0.08, duration: 0.4, ease: 'power3.out',
-        onComplete: () => { switchingRef.current = false; },
-      }
+      { opacity: 1, y: 0, stagger: 0.08, duration: 0.4, ease: 'power3.out',
+        onComplete: () => { switchingRef.current = false; } }
     );
   }, [activeTab]);
 
-  // ── Scroll entrance ───────────────────────────────────────
   useGSAP(() => {
     if (!ready) return;
 
@@ -186,9 +131,10 @@ export default function Products({ ready }) {
           >
             <div className="product-card__visual">
               <div className="product-card__img-wrap">
-                <div className="product-card__placeholder" aria-hidden="true">
-                  {p.svg}
-                </div>
+                {p.img
+                  ? <img src={p.img} alt={p.title} />
+                  : <div className="product-card__placeholder" aria-hidden="true">{p.svg}</div>
+                }
               </div>
               <div className="product-card__tag-wrap">
                 <span className={`product-card__tag${p.featured ? ' product-card__tag--featured' : ''}`}>
@@ -198,10 +144,24 @@ export default function Products({ ready }) {
             </div>
             <div className="product-card__body">
               <h3 className="product-card__title">{p.title}</h3>
+              {p.subtitle && <p className="product-card__subtitle">{p.subtitle}</p>}
               <p className="product-card__desc">{p.desc}</p>
-              <a href="#cotizaciones" className="product-card__link" aria-label={`Consultar sobre ${p.title.toLowerCase()}`}>
-                Consultar <span aria-hidden="true">→</span>
-              </a>
+              <div className="product-card__actions">
+                <a href="/#cotizaciones" className="product-card__link" aria-label={`Consultar sobre ${p.title.toLowerCase()}`}>
+                  Consultar <span aria-hidden="true">→</span>
+                </a>
+                {p.route
+                  ? (
+                    <Link to={p.route} className="product-card__btn-ver" aria-label={`Ver ${p.title}`}>
+                      Ver
+                    </Link>
+                  ) : (
+                    <span className="product-card__btn-ver product-card__btn-ver--disabled" aria-label="Próximamente">
+                      Próximamente
+                    </span>
+                  )
+                }
+              </div>
             </div>
           </article>
         ))}
