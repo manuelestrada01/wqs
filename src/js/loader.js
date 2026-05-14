@@ -7,7 +7,7 @@
  * Missing frames fall back to nearest loaded neighbor in sequence.js.
  */
 
-const FRAME_COUNT = 224;
+const FRAME_COUNT = 137;
 const FRAME_BASE = '/frames/ezgif-frame-';
 
 export function preloadFrames(onProgress) {

@@ -11,7 +11,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { debounce } from './utils.js';
 
-export const SCROLL_DISTANCE = 5000; // px — MUST match overlays.js
+export const SCROLL_DISTANCE = 1800; // px — MUST match overlays.js
 
 export function initSequence(images) {
   const canvas = document.getElementById('sequence-canvas');
@@ -61,13 +61,13 @@ export function initSequence(images) {
 
   // ── GSAP ScrollTrigger pin + scrub ─────────────────────────
   const tween = gsap.to(state, {
-    frame: images.length - 1,
+    frame: 136, // 0-indexed, 137 frames total
     snap: 'frame',
     ease: 'none',                       // CRITICAL — linear mapping for scrub
     scrollTrigger: {
       trigger: '#sequence-section',
       pin: true,
-      scrub: 0.5,                        // 0.5s playhead lag → weighty feel
+      scrub: 0.1,                        // 0.1s lag — very responsive
       start: 'top top',
       end: `+=${SCROLL_DISTANCE}`,
       invalidateOnRefresh: true,

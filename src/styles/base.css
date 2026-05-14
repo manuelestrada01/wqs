@@ -151,6 +151,40 @@ em {
   font-family: var(--font-display);
 }
 
+/* ═══════════════════════════════════════════
+   CUSTOM SCROLLBAR
+═══════════════════════════════════════════ */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-walnut) var(--c-carbon);
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--c-carbon);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-walnut);
+  border-radius: 3px;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-walnut-light);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--c-carbon);
+}
+
 /* ── Utility ── */
 .visually-hidden {
   position: absolute;

@@ -1,11 +1,10 @@
 /**
  * overlays.js — Text overlay animation choreography
- * Maps frame ranges to scroll offsets, fires GSAP animations
- * at correct thresholds using ScrollTrigger.create callbacks.
  *
- * Uses onEnter/onLeave (NOT scrub) → enables staggered SplitText reveals.
- *
- * IMPORTANT: SCROLL_DISTANCE must match sequence.js
+ * Uses a single ScrollTrigger synced to the sequence pin,
+ * reading progress directly to calculate current frame.
+ * Avoids coordinate issues with independently positioned triggers
+ * on a pinned element.
  */
 
 import gsap from 'gsap';
@@ -13,31 +12,27 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
 import { SCROLL_DISTANCE } from './sequence.js';
 
-const FRAME_COUNT = 224;
+const FRAME_COUNT = 137;
 
-// Map frame index to scroll offset within sequence section
-function frameToOffset(frame) {
-  return (frame / (FRAME_COUNT - 1)) * SCROLL_DISTANCE;
-}
-
-// Overlay config: which frames → which overlay
+// Frame ranges for each overlay — adjust to match video content
+// Gaps between overlays give breathing room (canvas shows clean briefly)
 const OVERLAYS = [
-  { selector: '.overlay--title',    frameIn: 0,   frameOut: 38  },
-  { selector: '.overlay--thermal',  frameIn: 40,  frameOut: 78  },
-  { selector: '.overlay--security', frameIn: 80,  frameOut: 118 },
-  { selector: '.overlay--acoustic', frameIn: 120, frameOut: 158 },
-  { selector: '.overlay--design',   frameIn: 160, frameOut: 198 },
-  { selector: '.overlay--wqs',      frameIn: 200, frameOut: 224 },
+  { selector: '.overlay--title',    frameIn: 0,   frameOut: 18  },
+  { selector: '.overlay--thermal',  frameIn: 25,  frameOut: 43  },
+  { selector: '.overlay--security', frameIn: 50,  frameOut: 68  },
+  { selector: '.overlay--acoustic', frameIn: 75,  frameOut: 93  },
+  { selector: '.overlay--design',   frameIn: 100, frameOut: 118 },
+  { selector: '.overlay--wqs',      frameIn: 124, frameOut: 137 },
 ];
 
-// Transition durations (in seconds, not pixels)
-const DUR_IN  = 0.7;
-const DUR_OUT = 0.4; // exit faster than enter (ui-ux-pro-max rule)
+const DUR_IN  = 0.5;
+const DUR_OUT = 0.3;
 
 export function initOverlays() {
-  OVERLAYS.forEach(({ selector, frameIn, frameOut }) => {
+  // Build overlay state objects with split text
+  const overlayStates = OVERLAYS.map(({ selector, frameIn, frameOut }) => {
     const el = document.querySelector(selector);
-    if (!el) return;
+    if (!el) return null;
 
     const headline = el.querySelector('.overlay__headline');
     const body     = el.querySelector('.overlay__body');
@@ -46,7 +41,6 @@ export function initOverlays() {
     const tagline  = el.querySelector('.overlay__tagline');
     const cta      = el.querySelector('.overlay__cta');
 
-    // SplitText on headline for line-by-line reveal
     let splitLines = null;
     if (headline) {
       splitLines = SplitText.create(headline, {
@@ -57,80 +51,56 @@ export function initOverlays() {
 
     const staggerEls = [
       ...(splitLines ? splitLines.lines : [headline].filter(Boolean)),
-      num,
-      brand,
-      tagline,
-      body,
-      cta,
+      num, brand, tagline, body, cta,
     ].filter(Boolean);
 
-    // Initial state — all hidden, shifted down
-    gsap.set(el, { autoAlpha: 0, y: 0 });
-    gsap.set(staggerEls, { y: 28, autoAlpha: 0 });
+    // Set initial hidden state
+    gsap.set(el, { autoAlpha: 0 });
+    gsap.set(staggerEls, { y: 24, autoAlpha: 0 });
 
-    const inOffset  = frameToOffset(frameIn);
-    const outOffset = frameToOffset(frameOut);
+    return { el, staggerEls, frameIn, frameOut, visible: false };
+  }).filter(Boolean);
 
-    // ── ENTER: fade in when reaching frameIn ──────────────────
-    ScrollTrigger.create({
-      trigger: '#sequence-section',
-      start: `top+=${inOffset} top`,
-      end:   `top+=${inOffset + 50} top`,
-      onEnter() {
-        el.setAttribute('aria-hidden', 'false');
-        el.classList.add('is-visible');
+  // ── Single ScrollTrigger synced to sequence pin ────────────
+  // Same trigger + start + end as sequence.js → progress is 1:1
+  ScrollTrigger.create({
+    trigger: '#sequence-section',
+    start: 'top top',
+    end: `+=${SCROLL_DISTANCE}`,
+    onUpdate(self) {
+      const currentFrame = Math.round(self.progress * (FRAME_COUNT - 1));
 
-        gsap.to(el, {
-          autoAlpha: 1,
-          duration: DUR_IN * 0.5,
-          ease: 'power2.out',
-        });
+      overlayStates.forEach(state => {
+        const shouldShow = currentFrame >= state.frameIn && currentFrame < state.frameOut;
 
-        gsap.to(staggerEls, {
-          y: 0,
-          autoAlpha: 1,
-          duration: DUR_IN,
-          stagger: 0.08,
-          ease: 'power3.out',
-          clearProps: 'will-change',
-        });
-      },
-      onLeaveBack() {
-        // Scrolling back up — hide this overlay
-        el.setAttribute('aria-hidden', 'true');
-        el.classList.remove('is-visible');
-        gsap.to(el, { autoAlpha: 0, duration: DUR_OUT * 0.5, ease: 'power2.in' });
-        gsap.to(staggerEls, { y: 28, autoAlpha: 0, duration: DUR_OUT * 0.5 });
-      },
-    });
+        if (shouldShow && !state.visible) {
+          state.visible = true;
+          state.el.setAttribute('aria-hidden', 'false');
+          state.el.classList.add('is-visible');
 
-    // ── EXIT: fade out when reaching frameOut ─────────────────
-    if (frameOut < FRAME_COUNT) {
-      ScrollTrigger.create({
-        trigger: '#sequence-section',
-        start: `top+=${outOffset - 60} top`,
-        end:   `top+=${outOffset} top`,
-        onLeave() {
-          el.setAttribute('aria-hidden', 'true');
-          el.classList.remove('is-visible');
-          gsap.to(el, {
-            autoAlpha: 0,
-            y: -16,
-            duration: DUR_OUT,
-            ease: 'power2.in',
-          });
-        },
-        onEnterBack() {
-          el.setAttribute('aria-hidden', 'false');
-          el.classList.add('is-visible');
-          gsap.to(el, {
-            autoAlpha: 1,
+          gsap.killTweensOf([state.el, ...state.staggerEls]);
+          gsap.to(state.el, { autoAlpha: 1, duration: DUR_IN, ease: 'power2.out' });
+          gsap.to(state.staggerEls, {
             y: 0,
-            duration: DUR_IN * 0.5,
-            ease: 'power2.out',
+            autoAlpha: 1,
+            duration: DUR_IN,
+            stagger: 0.07,
+            ease: 'power3.out',
           });
-        },
+        } else if (!shouldShow && state.visible) {
+          state.visible = false;
+          state.el.setAttribute('aria-hidden', 'true');
+          state.el.classList.remove('is-visible');
+
+          gsap.killTweensOf([state.el, ...state.staggerEls]);
+          gsap.to(state.el, { autoAlpha: 0, y: -12, duration: DUR_OUT, ease: 'power2.in' });
+          gsap.to(state.staggerEls, { y: 24, autoAlpha: 0, duration: DUR_OUT });
+
+          // Reset y on staggerEls for next show
+          gsap.set(state.staggerEls, { y: 24, delay: DUR_OUT + 0.05 });
+          gsap.set(state.el, { y: 0, delay: DUR_OUT + 0.05 });
+        }
       });
-    }
+    },
   });
 }

@@ -14,11 +14,43 @@ export function initNavbar() {
   if (!navbar) return;
 
   // ── Scroll state: transparent → dark glass ────────────────
+  // Turns dark after 80px scroll
   ScrollTrigger.create({
+    trigger: document.documentElement,
     start: '80px top',
     onEnter:     () => navbar.classList.add('navbar--scrolled'),
     onLeaveBack: () => navbar.classList.remove('navbar--scrolled'),
   });
+
+  // ── Hide on scroll down, show on scroll up ─────────────────
+  let lastY = 0;
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastY;
+
+      // Only hide after scrolling past 120px (not on hero)
+      if (currentY > 120) {
+        if (delta > 4) {
+          // Scrolling down — hide
+          navbar.classList.add('navbar--hidden');
+        } else if (delta < -4) {
+          // Scrolling up (even a little) — show immediately
+          navbar.classList.remove('navbar--hidden');
+        }
+      } else {
+        // Near top — always show
+        navbar.classList.remove('navbar--hidden');
+      }
+
+      lastY = currentY;
+      ticking = false;
+    });
+  }, { passive: true });
 
   // ── Mobile menu toggle ─────────────────────────────────────
   toggle.addEventListener('click', () => {
@@ -28,6 +60,9 @@ export function initNavbar() {
     toggle.setAttribute('aria-expanded', String(nextState));
     menu.classList.toggle('is-open', nextState);
     document.body.style.overflow = nextState ? 'hidden' : '';
+
+    // Keep navbar visible while menu is open
+    if (nextState) navbar.classList.remove('navbar--hidden');
 
     // Animate menu items in/out
     if (nextState) {
