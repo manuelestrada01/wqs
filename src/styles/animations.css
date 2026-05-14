@@ -1,0 +1,110 @@
+/* ═══════════════════════════════════════════
+   CSS-ONLY ANIMATIONS & HOVER STATES
+   (GSAP handles scroll + entrance animations)
+═══════════════════════════════════════════ */
+
+/* ── Nav link underline draw ── */
+.nav__link:not(.nav__link--cta)::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  background: var(--c-white);
+  margin-top: 2px;
+  transition: width var(--dur-fast) var(--ease-out);
+}
+
+.nav__link:not(.nav__link--cta):hover::after,
+.nav__link:not(.nav__link--cta):focus-visible::after,
+.nav__link.is-active:not(.nav__link--cta)::after {
+  width: 100%;
+}
+
+/* ── Footer nav links ── */
+.footer__nav a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  background: var(--c-accent);
+  margin-top: 1px;
+  transition: width var(--dur-fast) var(--ease-out);
+}
+
+.footer__nav a:hover::after {
+  width: 30%;
+}
+
+/* ── Product card image zoom via CSS ── */
+.product-card__img-wrap {
+  overflow: hidden;
+}
+
+/* ── Form input underline glow ── */
+.form-field__input:focus {
+  box-shadow: 0 1px 0 0 var(--c-white-50);
+}
+
+/* ── Scroll hint animation ── */
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.4; }
+  50%       { transform: scaleY(0.7); opacity: 0.9; }
+}
+
+/* ── Stat counter hover ── */
+.stat {
+  transition:
+    border-color var(--dur-med) var(--ease-out),
+    background var(--dur-med) var(--ease-out);
+}
+
+.stat:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ── Selection color ── */
+::selection {
+  background: var(--c-walnut);
+  color: var(--c-white);
+}
+
+/* ── Focus ring global ── */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* ── Reduced motion: disable ALL animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-hint__line {
+    animation: none !important;
+  }
+}
+
+/* ── Smooth page fade-in after loader ── */
+body.is-ready {
+  animation: bodyFadeIn 0.4s var(--ease-out) both;
+}
+
+@keyframes bodyFadeIn {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+/* ── Number counter pulse ── */
+.stat__value.is-counting {
+  animation: counterPulse 0.1s ease-out;
+}
+
+@keyframes counterPulse {
+  from { transform: scale(1.02); }
+  to   { transform: scale(1); }
+}

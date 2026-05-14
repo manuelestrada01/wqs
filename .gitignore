@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+*.local
+.env
+.env.*
+
+# Frames are large binary assets — extract locally with:
+# unzip Downloads/ezgif-64c1cbfef6e2a347-jpg.zip -d public/frames/
+public/frames/
