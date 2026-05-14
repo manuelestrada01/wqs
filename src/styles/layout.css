@@ -58,8 +58,8 @@
 
 /* ══════════════════════ SEQUENCE LAYOUT ══════════════════════ */
 .section--sequence {
-  /* Height determined by ScrollTrigger pin spacer */
-  /* Canvas fills viewport via sticky positioning */
+  height: 100svh;
+  overflow: hidden;
 }
 
 /* ══════════════════════ PRODUCTS LAYOUT ══════════════════════ */
@@ -70,17 +70,11 @@
 
 .products__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
   gap: var(--sp-4);
   padding: 0 var(--sp-6) var(--sp-6);
   max-width: 1400px;
   margin-inline: auto;
-}
-
-@media (max-width: 768px) {
-  .products__grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ══════════════════════ REHAU LAYOUT ══════════════════════ */
@@ -156,6 +150,61 @@
 @media (max-width: 560px) {
   .form-row {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════ LINE DETAIL LAYOUT ══════════════════════ */
+.line-detail {
+  padding: var(--sp-24) var(--sp-6);
+}
+
+.line-detail--walnut {
+  background: linear-gradient(160deg, var(--c-walnut) 0%, #1e0f09 100%);
+}
+
+.line-detail--carbon {
+  background: var(--c-carbon);
+}
+
+.line-detail__inner {
+  max-width: 1200px;
+  margin-inline: auto;
+  display: grid;
+  gap: var(--sp-16);
+}
+
+.line-detail__header {
+  max-width: 680px;
+}
+
+.line-detail__specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--sp-4);
+}
+
+.line-detail__features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--sp-8);
+}
+
+.line-detail__cta-wrap {
+  padding-top: var(--sp-4);
+}
+
+@media (max-width: 768px) {
+  .line-detail {
+    padding: var(--sp-16) var(--sp-5);
+  }
+
+  .line-detail__specs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .line-detail__features {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
   }
 }
 
