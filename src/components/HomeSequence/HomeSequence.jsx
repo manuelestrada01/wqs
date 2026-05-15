@@ -112,15 +112,13 @@ export default function HomeSequence({ images, ready }) {
     const ctx = gsap.context(() => {
       gsap.to(stateRef.current, {
         frame: FRAME_COUNT - 1,
-        snap: 'frame',
         ease: 'none',
         scrollTrigger: {
           trigger: '#home-sequence',
           pin: true,
-          scrub: 0.1,
+          scrub: 0.5,
           start: 'top top',
           end: `+=${SCROLL_DISTANCE}`,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate(self) {
             if (progressRef.current) {
@@ -173,7 +171,6 @@ export default function HomeSequence({ images, ready }) {
         {/* Overlay 0 — Hero */}
         <div className="overlay home-overlay--hero overlay--title" data-overlay="0" aria-hidden="true">
           <div className="overlay__content">
-            <p className="overlay__brand">REHAU</p>
             <h2 className="overlay__headline">Una ventana<br/>de posibilidades</h2>
             <p className="overlay__tagline">Tecnología alemana. Fabricación argentina.</p>
           </div>

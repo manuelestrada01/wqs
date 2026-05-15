@@ -182,7 +182,6 @@ export default function SequenceEuro({ images, ready }) {
 
         <div className="overlay overlay-euro--title" aria-hidden="true">
           <div className="overlay__content">
-            <p className="overlay__brand">REHAU</p>
             <h2 className="overlay__headline">Euro<br/>Design 70</h2>
             <p className="overlay__tagline">Diseño europeo. Fabricación argentina.</p>
           </div>

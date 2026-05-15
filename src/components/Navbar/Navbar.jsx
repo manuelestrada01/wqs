@@ -17,7 +17,7 @@ export default function Navbar() {
     if (location.pathname === '/') {
       scrollToSection('products');
     } else {
-      navigate('/#products');
+      navigate('/', { state: { scrollTo: 'products' } });
     }
   }
 
@@ -26,7 +26,7 @@ export default function Navbar() {
     if (location.pathname === '/') {
       scrollToSection('quienes-somos');
     } else {
-      navigate('/#quienes-somos');
+      navigate('/', { state: { scrollTo: 'quienes-somos' } });
     }
   }
 
@@ -35,7 +35,7 @@ export default function Navbar() {
     if (location.pathname === '/') {
       scrollToSection('cotizaciones');
     } else {
-      navigate('/#cotizaciones');
+      navigate('/', { state: { scrollTo: 'cotizaciones' } });
     }
   }
 

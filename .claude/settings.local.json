@@ -33,7 +33,11 @@
       "Bash(git checkout:*)",
       "Bash(npx vite:*)",
       "Bash(unzip -l \"6a05d865147814725PzGhuzXtc9361_000.zip\")",
-      "Bash(unzip -o \"C:/Users/jetsa/Downloads/6a05d865147814725PzGhuzXtc9361_000.zip\" -d \"C:/Users/jetsa/WQS/public/frames-euro/\")"
+      "Bash(unzip -o \"C:/Users/jetsa/Downloads/6a05d865147814725PzGhuzXtc9361_000.zip\" -d \"C:/Users/jetsa/WQS/public/frames-euro/\")",
+      "Bash(powershell -Command \"Compress-Archive -Path 'public/frames' -DestinationPath 'public/frames.zip' -Force\")",
+      "Bash(powershell -Command \"Compress-Archive -Path 'dist/*' -DestinationPath 'dist.zip' -Force\")",
+      "Bash(unzip -l \"C:/Users/jetsa/Downloads/ezgif-6ec4d671ba24b317-jpg.zip\")",
+      "Bash(unzip -q \"C:/Users/jetsa/Downloads/ezgif-6ec4d671ba24b317-jpg.zip\" -d C:/Users/jetsa/WQS/public/frames-hds/)"
     ]
   }
 }

@@ -159,7 +159,6 @@ export default function Sequence({ images, ready }) {
       <div className="sequence__overlays" aria-live="polite">
         <div className="overlay overlay--title" data-overlay="0" aria-hidden="true">
           <div className="overlay__content">
-            <p className="overlay__brand">REHAU</p>
             <h2 className="overlay__headline">SYNEGO</h2>
             <p className="overlay__tagline">El sistema de alto rendimiento</p>
           </div>

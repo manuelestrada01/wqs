@@ -83,7 +83,6 @@ export default function Hero({ ready }) {
       </div>
 
       <div className="hero__badge" aria-hidden="true">
-        <span>REHAU</span>
         <span>SYNEGO</span>
         <span>System</span>
       </div>

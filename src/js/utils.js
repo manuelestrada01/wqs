@@ -4,23 +4,42 @@
 
 /**
  * Jump to a section by ID, bypassing any GSAP ScrollTrigger pins in the way.
- * Works in both directions (forward past a pin, or backward to a pre-pin section).
+ *
+ * On fresh page load, GSAP hasn't set up its pin spacers yet. If we scroll
+ * immediately, ScrollTrigger.refresh() (called by HomeSequence a frame later)
+ * will temporarily reset scroll to 0 to measure positions, interrupting the
+ * smooth scroll. Fix: when no pin triggers exist yet, defer until after refresh.
  */
 export function scrollToSection(targetId) {
+  const { ScrollTrigger } = window.__gsapPlugins__ || {};
+  const allTriggers = typeof ScrollTrigger?.getAll === 'function' ? ScrollTrigger.getAll() : [];
+  const hasPins = allTriggers.some(t => t.pin);
+
+  if (!hasPins && ScrollTrigger) {
+    // GSAP not initialized yet — wait for its first refresh, then scroll
+    ScrollTrigger.addEventListener('refresh', function handler() {
+      ScrollTrigger.removeEventListener('refresh', handler);
+      _doScrollToSection(targetId);
+    });
+    return;
+  }
+
+  _doScrollToSection(targetId);
+}
+
+function _doScrollToSection(targetId) {
   const { ScrollTrigger } = window.__gsapPlugins__ || {};
   const allTriggers = typeof ScrollTrigger?.getAll === 'function' ? ScrollTrigger.getAll() : [];
 
   const target = document.getElementById(targetId);
   if (!target) return;
 
-  const targetTrigger = allTriggers.find(t => t.trigger?.id === targetId);
-  const destinationY  = targetTrigger
-    ? targetTrigger.start
-    : target.getBoundingClientRect().top + window.scrollY;
+  // Always use getBoundingClientRect — animation triggers (start: 'top 75%') give
+  // wrong values; only pin triggers would be valid alternatives, but they're not needed.
+  const destinationY = target.getBoundingClientRect().top + window.scrollY;
 
   const blockingPins = allTriggers.filter(t => {
     if (!t.pin || t.trigger?.id === targetId) return false;
-    // Pin blocks if we're currently inside it, or it sits between us and the destination
     const goingForward = destinationY > window.scrollY;
     if (goingForward) return t.start < destinationY && window.scrollY < t.end;
     return window.scrollY > t.start && window.scrollY < t.end;

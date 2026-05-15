@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Loader from '../components/Loader/Loader.jsx';
 import Hero from '../components/Hero/Hero.jsx';
 import About from '../components/About/About.jsx';
@@ -11,6 +12,7 @@ export default function HomePage() {
   const [images,   setImages]   = useState(null);
   const [progress, setProgress] = useState(0);
   const [ready,    setReady]    = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     preloadFrames((p) => setProgress(p)).then(setImages);
@@ -20,6 +22,17 @@ export default function HomePage() {
     setReady(true);
     document.body.classList.add('is-ready');
   }
+
+  // Scroll to target section after loader finishes (when navigating from system pages)
+  useEffect(() => {
+    if (!ready) return;
+    const target = location.state?.scrollTo;
+    if (!target) return;
+    const t = setTimeout(() => {
+      document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+    return () => clearTimeout(t);
+  }, [ready]);
 
   return (
     <>

@@ -6,6 +6,10 @@ Thumbs.db
 .env
 .env.*
 
-# Frames are large binary assets — extract locally with:
+# Frames are large binary assets — extract locally
 # unzip Downloads/ezgif-64c1cbfef6e2a347-jpg.zip -d public/frames/
+# unzip Downloads/ezgif-EURO.zip -d public/frames-euro/
+# unzip Downloads/ezgif-6ec4d671ba24b317-jpg.zip -d public/frames-hds/
 public/frames/
+public/frames-euro/
+public/frames-hds/

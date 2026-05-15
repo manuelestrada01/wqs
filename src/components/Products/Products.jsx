@@ -122,49 +122,52 @@ export default function Products({ ready }) {
       </div>
 
       <div className="products__grid" ref={gridRef} role="tabpanel">
-        {currentLines.map(p => (
-          <article
-            key={p.id}
-            id={p.id}
-            className={`product-card${p.featured ? ' product-card--featured' : ''}`}
-            tabIndex={0}
-          >
-            <div className="product-card__visual">
-              <div className="product-card__img-wrap">
-                {p.img
-                  ? <img src={p.img} alt={p.title} />
-                  : <div className="product-card__placeholder" aria-hidden="true">{p.svg}</div>
-                }
+        {currentLines.map(p => {
+          const inner = (
+            <>
+              <div className="product-card__visual">
+                <div className="product-card__img-wrap">
+                  {p.img
+                    ? <img src={p.img} alt={p.title} />
+                    : <div className="product-card__placeholder" aria-hidden="true">{p.svg}</div>
+                  }
+                </div>
+                <div className="product-card__tag-wrap">
+                  <span className={`product-card__tag${p.featured ? ' product-card__tag--featured' : ''}`}>
+                    {p.tag}
+                  </span>
+                </div>
               </div>
-              <div className="product-card__tag-wrap">
-                <span className={`product-card__tag${p.featured ? ' product-card__tag--featured' : ''}`}>
-                  {p.tag}
+              <div className="product-card__body">
+                <h3 className="product-card__title">{p.title}</h3>
+                {p.subtitle && <p className="product-card__subtitle">{p.subtitle}</p>}
+                <p className="product-card__desc">{p.desc}</p>
+                <span className="product-card__cta" aria-hidden="true">
+                  {p.route ? 'Ver sistema →' : 'Próximamente'}
                 </span>
               </div>
-            </div>
-            <div className="product-card__body">
-              <h3 className="product-card__title">{p.title}</h3>
-              {p.subtitle && <p className="product-card__subtitle">{p.subtitle}</p>}
-              <p className="product-card__desc">{p.desc}</p>
-              <div className="product-card__actions">
-                <a href="/#cotizaciones" className="product-card__link" aria-label={`Consultar sobre ${p.title.toLowerCase()}`}>
-                  Consultar <span aria-hidden="true">→</span>
-                </a>
-                {p.route
-                  ? (
-                    <Link to={p.route} className="product-card__btn-ver" aria-label={`Ver ${p.title}`}>
-                      Ver
-                    </Link>
-                  ) : (
-                    <span className="product-card__btn-ver product-card__btn-ver--disabled" aria-label="Próximamente">
-                      Próximamente
-                    </span>
-                  )
-                }
-              </div>
-            </div>
-          </article>
-        ))}
+            </>
+          );
+
+          return p.route ? (
+            <Link
+              key={p.id}
+              to={p.route}
+              className={`product-card${p.featured ? ' product-card--featured' : ''}`}
+              aria-label={`Ver sistema ${p.title}`}
+            >
+              {inner}
+            </Link>
+          ) : (
+            <article
+              key={p.id}
+              id={p.id}
+              className={`product-card product-card--soon${p.featured ? ' product-card--featured' : ''}`}
+            >
+              {inner}
+            </article>
+          );
+        })}
       </div>
 
     </section>
