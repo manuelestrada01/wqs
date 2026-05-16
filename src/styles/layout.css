@@ -180,7 +180,7 @@
 }
 
 .line-detail--walnut {
-  background: linear-gradient(160deg, var(--c-walnut) 0%, #1e0f09 100%);
+  background: var(--c-carbon);
 }
 
 .line-detail--carbon {

@@ -6,6 +6,7 @@ import { useFramePreloader } from '../hooks/useFramePreloader.js';
 import SystemSequence from '../components/SystemSequence/SystemSequence.jsx';
 import LineDetail from '../components/LineDetail/LineDetail.jsx';
 import SystemNav from '../components/SystemNav/SystemNav.jsx';
+import QuickNav from '../components/QuickNav/QuickNav.jsx';
 import PageTransition from '../components/PageTransition/PageTransition.jsx';
 
 // Mini progress bar inline para páginas de sistema (no full-screen loader)
@@ -70,6 +71,7 @@ export default function SystemPage() {
 
   return (
     <PageTransition>
+      <QuickNav categoryId={categoria} slug={slug} />
       <SystemLoader progress={progress} isLoaded={isLoaded} />
       <SystemSequence
         systemData={system}

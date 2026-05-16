@@ -31,8 +31,7 @@ export const SYSTEMS = [
             position: 'center',
             frameIn: 0,   frameOut: 22,
             brand: 'REHAU',
-            headline: 'SYNEGO',
-            tagline: 'El sistema de alto rendimiento',
+            headline: 'SYNEGO\nSLIDE',
           },
           {
             id: 'thermal',
@@ -122,7 +121,6 @@ export const SYSTEMS = [
             frameIn: 0,   frameOut: 20,
             brand: 'REHAU',
             headline: 'HIGH DESIGN\nSLIDE',
-            tagline: 'Diseño arquitectónico. Deslizamiento perfecto.',
           },
           {
             id: 'design',
@@ -227,7 +225,6 @@ export const SYSTEMS = [
             frameIn: 0,  frameOut: 10,
             brand: 'REHAU',
             headline: 'Euro\nDesign 70',
-            tagline: 'Diseño europeo. Fabricación argentina.',
           },
           {
             id: 'feat1',
@@ -322,5 +319,18 @@ export function getAdjacentSystems(categoryId, slug) {
     prev: idx > 0 ? systems[idx - 1] : null,
     next: idx < systems.length - 1 ? systems[idx + 1] : null,
     categoryId,
+  };
+}
+
+export function getAllSystemsFlat() {
+  return SYSTEMS.flatMap(c => c.systems.map(s => ({ ...s, categoryId: c.categoryId })));
+}
+
+export function getAdjacentSystemsGlobal(categoryId, slug) {
+  const all = getAllSystemsFlat();
+  const idx = all.findIndex(s => s.slug === slug && s.categoryId === categoryId);
+  return {
+    prev: idx > 0 ? all[idx - 1] : null,
+    next: idx < all.length - 1 ? all[idx + 1] : null,
   };
 }

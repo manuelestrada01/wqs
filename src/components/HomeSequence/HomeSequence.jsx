@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { debounce } from '../../js/utils.js';
+import { debounce } from '../../utils.js';
 
 const SCROLL_DISTANCE = 3500;
 const FRAME_COUNT     = 137;
@@ -77,7 +77,7 @@ export default function HomeSequence({ images, ready }) {
       const headline   = el.querySelector('.overlay__headline');
       const body       = el.querySelector('.overlay__body');
       const num        = el.querySelector('.overlay__num');
-      const brand      = el.querySelector('.overlay__brand');
+      const brand      = el.querySelector('.overlay__brand') || el.querySelector('.overlay__brand-logo');
       const tagline    = el.querySelector('.overlay__tagline');
       const cta        = el.querySelector('.overlay__cta');
       const staggerEls = [headline, num, brand, tagline, body, cta].filter(Boolean);
@@ -171,6 +171,7 @@ export default function HomeSequence({ images, ready }) {
         {/* Overlay 0 — Hero */}
         <div className="overlay home-overlay--hero overlay--title" data-overlay="0" aria-hidden="true">
           <div className="overlay__content">
+            <img src="/rehau-logo.png" alt="REHAU" className="overlay__brand-logo" />
             <h2 className="overlay__headline">Una ventana<br/>de posibilidades</h2>
             <p className="overlay__tagline">Tecnología alemana. Fabricación argentina.</p>
           </div>
@@ -206,7 +207,6 @@ export default function HomeSequence({ images, ready }) {
         {/* Overlay 4 — CTA sistemas */}
         <div className="overlay home-overlay--cta overlay--wqs" data-overlay="4" aria-hidden="true">
           <div className="overlay__content">
-            <p className="overlay__brand">WQS</p>
             <h2 className="overlay__headline">Conoce<br/>nuestros<br/>sistemas</h2>
             <a href="#products" className="btn btn--primary overlay__cta">
               Ver sistemas

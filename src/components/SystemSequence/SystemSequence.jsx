@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { debounce } from '../../js/utils.js';
+import { debounce } from '../../utils.js';
 
 const DUR_IN  = 0.5;
 const DUR_OUT = 0.3;
@@ -172,14 +172,18 @@ export default function SystemSequence({ systemData, images, ready, sectionId })
         aria-hidden="true"
       >
         <div className="overlay__content">
-          {overlay.brand    && <p className="overlay__brand">{overlay.brand}</p>}
+          {overlay.brand && (
+            overlay.brand === 'REHAU'
+              ? <img src="/rehau-logo.png" alt="REHAU" className="overlay__brand-logo" />
+              : <p className="overlay__brand">{overlay.brand}</p>
+          )}
           {overlay.num      && <span className="overlay__num">{overlay.num}</span>}
-          {overlay.tagline  && <p className="overlay__tagline">{overlay.tagline}</p>}
           <h2 className="overlay__headline">
             {overlay.headline.split('\n').map((line, i, arr) => (
               <React.Fragment key={i}>{line}{i < arr.length - 1 && <br/>}</React.Fragment>
             ))}
           </h2>
+          {overlay.tagline  && <p className="overlay__tagline">{overlay.tagline}</p>}
           {overlay.body && <p className="overlay__body">{overlay.body}</p>}
           {overlay.cta  && (
             <a href={overlay.cta.href} className="btn btn--primary overlay__cta">

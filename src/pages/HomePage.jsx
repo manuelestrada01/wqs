@@ -6,17 +6,15 @@ import About from '../components/About/About.jsx';
 import HomeSequence from '../components/HomeSequence/HomeSequence.jsx';
 import Products from '../components/Products/Products.jsx';
 import Cotizaciones from '../components/Cotizaciones/Cotizaciones.jsx';
-import { preloadFrames } from '../js/loader.js';
+import { useFramePreloader } from '../hooks/useFramePreloader.js';
+import { SYSTEMS } from '../data/systems.js';
+
+const HOME_SEQUENCE_CONFIG = SYSTEMS[0].systems[0].sequence; // Synego Slide
 
 export default function HomePage() {
-  const [images,   setImages]   = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [ready,    setReady]    = useState(false);
+  const { images, progress } = useFramePreloader(HOME_SEQUENCE_CONFIG);
+  const [ready, setReady]    = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    preloadFrames((p) => setProgress(p)).then(setImages);
-  }, []);
 
   function handleLoaderDone() {
     setReady(true);

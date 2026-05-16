@@ -14,7 +14,7 @@ export default function Hero({ ready }) {
     const lines      = sectionRef.current.querySelectorAll('.hero__line');
     const sub        = sectionRef.current.querySelector('.hero__sub');
     const cta        = sectionRef.current.querySelector('.hero__cta');
-    const scrollHint = sectionRef.current.querySelector('.hero__scroll-hint');
+const scrollHint = sectionRef.current.querySelector('.hero__scroll-hint');
     const badge      = sectionRef.current.querySelector('.hero__badge');
 
     const splits  = Array.from(lines).map(line =>
@@ -35,7 +35,7 @@ export default function Hero({ ready }) {
       }, '-=0.3')
       .to(sub,        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
       .to(cta,        { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(1.3)' }, '-=0.4')
-      .to(scrollHint, { autoAlpha: 1, duration: 1, ease: 'power2.out' }, '-=0.3')
+.to(scrollHint, { autoAlpha: 1, duration: 1, ease: 'power2.out' }, '-=0.3')
       .to(badge,      { autoAlpha: 1, duration: 1, ease: 'power2.out' }, '<');
 
     gsap.to('.hero__bg-img img', {
@@ -65,9 +65,7 @@ export default function Hero({ ready }) {
           <span className="hero__line">Argentina.</span>
         </h1>
         <p className="hero__sub">
-          Aberturas de aluminio REHAU de alto rendimiento —<br />
-          aislamiento térmico, acústico y seguridad<br />
-          para cada proyecto.
+          Aberturas de pvc REHAU de alto rendimiento, aislamiento térmico, acústico y seguridad para cada proyecto.
         </p>
         <a href="#cotizaciones" className="btn btn--primary hero__cta">
           Cotizar

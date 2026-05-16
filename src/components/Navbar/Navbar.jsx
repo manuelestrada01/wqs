@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { scrollToSection } from '../../js/utils.js';
+import { scrollToSection } from '../../utils.js';
 
 export default function Navbar() {
   const navbarRef  = useRef(null);
@@ -148,7 +148,7 @@ export default function Navbar() {
             }
           }}
         >
-          <img src="/wqs-logo.png" alt="WQS Windows Quality System" width="80" height="27" />
+          <img src="/wqs-logo-blanco.png" alt="WQS Windows Quality System" width="80" height="27" />
         </Link>
 
         <button

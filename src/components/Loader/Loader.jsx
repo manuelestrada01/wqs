@@ -30,7 +30,7 @@ export default function Loader({ progress, images, onDone }) {
     <div id="loader" ref={loaderRef} aria-hidden="true" role="status">
       <div className="loader__inner">
         <div className="loader__logo">
-          <img src="/wqs-logo.png" alt="WQS" width="120" height="40" />
+          <img src="/wqs-logo-blanco.png" alt="WQS" width="120" height="40" />
         </div>
         <div className="loader__track">
           <div

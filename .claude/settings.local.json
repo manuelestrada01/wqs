@@ -37,7 +37,11 @@
       "Bash(powershell -Command \"Compress-Archive -Path 'public/frames' -DestinationPath 'public/frames.zip' -Force\")",
       "Bash(powershell -Command \"Compress-Archive -Path 'dist/*' -DestinationPath 'dist.zip' -Force\")",
       "Bash(unzip -l \"C:/Users/jetsa/Downloads/ezgif-6ec4d671ba24b317-jpg.zip\")",
-      "Bash(unzip -q \"C:/Users/jetsa/Downloads/ezgif-6ec4d671ba24b317-jpg.zip\" -d C:/Users/jetsa/WQS/public/frames-hds/)"
+      "Bash(unzip -q \"C:/Users/jetsa/Downloads/ezgif-6ec4d671ba24b317-jpg.zip\" -d C:/Users/jetsa/WQS/public/frames-hds/)",
+      "Bash(zip -r ../wqs-deploy.zip . --exclude \"frames/*\" --exclude \"frames-hds/*\" --exclude \"frames-euro/*\" --exclude \"frames.zip\")",
+      "Read(//c/Users/jetsa/**)",
+      "Bash(powershell -Command ':*)",
+      "Bash(powershell:*)"
     ]
   }
 }

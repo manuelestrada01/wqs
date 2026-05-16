@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { debounce } from '../../js/utils.js';
+import { debounce } from '../../utils.js';
 
 const SCROLL_DISTANCE = 3500;
 const FRAME_COUNT     = 49;
@@ -182,8 +182,8 @@ export default function SequenceEuro({ images, ready }) {
 
         <div className="overlay overlay-euro--title" aria-hidden="true">
           <div className="overlay__content">
+            <img src="/rehau-logo.png" alt="REHAU" className="overlay__brand-logo" />
             <h2 className="overlay__headline">Euro<br/>Design 70</h2>
-            <p className="overlay__tagline">Diseño europeo. Fabricación argentina.</p>
           </div>
         </div>
 

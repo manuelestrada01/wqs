@@ -24,7 +24,7 @@ export default function Footer() {
       <div className="footer__inner">
         <div className="footer__brand">
           <a href="/" className="footer__logo-link" aria-label="WQS — inicio">
-            <img src="/wqs-logo.png" alt="WQS Windows Quality System" width="80" height="27" className="footer__logo" />
+            <img src="/wqs-logo-blanco.png" alt="WQS Windows Quality System" width="80" height="27" className="footer__logo" />
           </a>
           <p className="footer__tagline">
             Windows Quality System<br/>

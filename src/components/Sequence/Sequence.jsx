@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { debounce } from '../../js/utils.js';
+import { debounce } from '../../utils.js';
 
 export const SCROLL_DISTANCE = 3500;
 const FRAME_COUNT = 137;
